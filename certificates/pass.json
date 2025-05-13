@@ -1,0 +1,44 @@
+{
+  "formatVersion": 1,
+  "passTypeIdentifier": "pass.com.yourdomain.zvv",
+  "teamIdentifier": "YOUR_TEAM_ID",
+  "organizationName": "ZVV",
+  "description": "ZVV Ticket",
+  "backgroundColor": "rgb(255, 255, 255)",
+  "foregroundColor": "rgb(0, 0, 0)",
+  "labelColor": "rgb(0, 0, 0)",
+  "logoText": "ZVV Ticket",
+  "generic": {
+    "primaryFields": [
+      {
+        "key": "amount",
+        "label": "Betrag",
+        "value": "0.00"
+      }
+    ],
+    "secondaryFields": [
+      {
+        "key": "name",
+        "label": "Name",
+        "value": ""
+      }
+    ],
+    "auxiliaryFields": [
+      {
+        "key": "email",
+        "label": "E-Mail",
+        "value": ""
+      },
+      {
+        "key": "ticketId",
+        "label": "Ticket ID",
+        "value": ""
+      }
+    ],
+    "barcode": {
+      "message": "",
+      "format": "PKBarcodeFormatQR",
+      "messageEncoding": "iso-8859-1"
+    }
+  }
+} 

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PasskitGeneratorService } from '@/lib/services/PasskitGeneratorService';
+import { PKPass } from "passkit-generator";
+import path from "path";
+import fs from "fs/promises";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,27 +14,84 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ticketData = {
-      id: ticketId,
-      name: formData.name,
-      email: formData.email,
-      amount: amount || 5.20,
-    };
+    // Pfade zu den Zertifikaten
+    const certPath = path.join(process.cwd(), "certificates", "signerCert.pem");
+    const keyPath = path.join(process.cwd(), "certificates", "signerKey.pem");
+    const wwdrPath = path.join(process.cwd(), "certificates", "wwdr.pem");
 
-    const passkitService = PasskitGeneratorService.getInstance();
-    await passkitService.initialize();
-    const passBuffer = await passkitService.generatePass(ticketData);
+    // Lese die Zertifikate
+    const [signerCert, signerKey, wwdr] = await Promise.all([
+      fs.readFile(certPath),
+      fs.readFile(keyPath),
+      fs.readFile(wwdrPath),
+    ]);
 
-    return new NextResponse(passBuffer, {
+    // Erstelle den Pass
+    const pass = await PKPass.from({
+      model: path.join(process.cwd(), "certificates", "pass.json"),
+      certificates: {
+        wwdr,
+        signerCert,
+        signerKey,
+      },
+    }, {
+      serialNumber: ticketId,
+      description: "ZVV Ticket",
+      organizationName: "ZVV",
+      teamIdentifier: "YOUR_TEAM_ID", // Ersetzen Sie dies mit Ihrer Apple Developer Team ID
+      passTypeIdentifier: "pass.com.yourdomain.zvv", // Ersetzen Sie dies mit Ihrem Pass Type Identifier
+      backgroundColor: "rgb(255, 255, 255)",
+      foregroundColor: "rgb(0, 0, 0)",
+      labelColor: "rgb(0, 0, 0)",
+      logoText: "ZVV Ticket",
+      // Füge relevante Felder hinzu
+      primaryFields: [
+        {
+          key: "amount",
+          label: "Betrag",
+          value: `CHF ${amount.toFixed(2)}`,
+        },
+      ],
+      secondaryFields: [
+        {
+          key: "name",
+          label: "Name",
+          value: formData.name,
+        },
+      ],
+      auxiliaryFields: [
+        {
+          key: "email",
+          label: "E-Mail",
+          value: formData.email,
+        },
+        {
+          key: "ticketId",
+          label: "Ticket ID",
+          value: ticketId,
+        },
+      ],
+      barcode: {
+        message: ticketId,
+        format: "PKBarcodeFormatQR",
+        messageEncoding: "iso-8859-1",
+      },
+    });
+
+    // Generiere den Pass
+    const buffer = await pass.generate();
+
+    // Sende den Pass als Antwort
+    return new NextResponse(buffer, {
       headers: {
-        'Content-Type': 'application/vnd.apple.pkpass',
-        'Content-Disposition': 'attachment; filename=ticket.pkpass',
+        "Content-Type": "application/vnd.apple.pkpass",
+        "Content-Disposition": `attachment; filename=${ticketId}.pkpass`,
       },
     });
   } catch (error) {
-    console.error('Error generating pass:', error);
+    console.error("Error generating pass:", error);
     return NextResponse.json(
-      { error: 'Failed to generate pass' },
+      { error: "Failed to generate pass" },
       { status: 500 }
     );
   }
