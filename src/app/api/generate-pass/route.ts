@@ -38,44 +38,45 @@ export async function POST(request: NextRequest) {
       serialNumber: ticketId,
       description: "ZVV Ticket",
       organizationName: "ZVV",
-      teamIdentifier: "YOUR_TEAM_ID", // Ersetzen Sie dies mit Ihrer Apple Developer Team ID
-      passTypeIdentifier: "pass.com.yourdomain.zvv", // Ersetzen Sie dies mit Ihrem Pass Type Identifier
+      teamIdentifier: "zvvit",
+      passTypeIdentifier: "zvv.ch",
       backgroundColor: "rgb(255, 255, 255)",
       foregroundColor: "rgb(0, 0, 0)",
       labelColor: "rgb(0, 0, 0)",
       logoText: "ZVV Ticket",
-      // Füge relevante Felder hinzu
-      primaryFields: [
-        {
-          key: "amount",
-          label: "Betrag",
-          value: `CHF ${amount.toFixed(2)}`,
-        },
-      ],
-      secondaryFields: [
-        {
-          key: "name",
-          label: "Name",
-          value: formData.name,
-        },
-      ],
-      auxiliaryFields: [
-        {
-          key: "email",
-          label: "E-Mail",
-          value: formData.email,
-        },
-        {
-          key: "ticketId",
-          label: "Ticket ID",
-          value: ticketId,
-        },
-      ],
-      barcode: {
-        message: ticketId,
-        format: "PKBarcodeFormatQR",
-        messageEncoding: "iso-8859-1",
-      },
+      generic: {
+        primaryFields: [
+          {
+            key: "amount",
+            label: "Betrag",
+            value: `CHF ${amount.toFixed(2)}`
+          }
+        ],
+        secondaryFields: [
+          {
+            key: "name",
+            label: "Name",
+            value: formData.name
+          }
+        ],
+        auxiliaryFields: [
+          {
+            key: "email",
+            label: "E-Mail",
+            value: formData.email
+          },
+          {
+            key: "ticketId",
+            label: "Ticket ID",
+            value: ticketId
+          }
+        ],
+        barcode: {
+          message: ticketId,
+          format: "PKBarcodeFormatQR",
+          messageEncoding: "iso-8859-1"
+        }
+      }
     });
 
     // Generiere den Pass

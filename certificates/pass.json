@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
-  "passTypeIdentifier": "pass.com.yourdomain.zvv",
-  "teamIdentifier": "YOUR_TEAM_ID",
+  "passTypeIdentifier": "zvv.ch",
+  "teamIdentifier": "zvvit",
   "organizationName": "ZVV",
   "description": "ZVV Ticket",
   "backgroundColor": "rgb(255, 255, 255)",
