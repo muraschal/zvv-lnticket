@@ -4,7 +4,9 @@
 
 **zvv-lnticket** ist eine moderne Demo-Webapp für den einfachen Ticketkauf mit Bitcoin Lightning (mocked) und Apple Wallet Integration. Ziel ist es, einen reibungslosen, sicheren und UX-fokussierten Ticketprozess zu demonstrieren – von der Auswahl bis zum digitalen Ticket in der Apple Wallet.
 
----
+## Live Demo
+
+Die App ist als Demo-Version verfügbar unter: [Link folgt]
 
 ## Features
 - **Ticketkauf mit Bitcoin Lightning** (Zahlung wird gemockt)
@@ -13,7 +15,26 @@
 - **Klares, skalierbares Komponenten- und API-Design**
 - **Deployment auf Vercel**
 
----
+## Installation & Entwicklung
+
+1. **Repository klonen**
+   ```bash
+   git clone https://github.com/muraschal/zvv-lnticket.git
+   cd zvv-lnticket
+   ```
+
+2. **Abhängigkeiten installieren**
+   ```bash
+   npm install
+   ```
+
+3. **Development Server starten**
+   ```bash
+   npm run dev
+   ```
+
+4. **App öffnen**
+   - Browser öffnen: [http://localhost:3000](http://localhost:3000)
 
 ## Tech Stack
 
@@ -22,13 +43,73 @@
 | Frontend               | Next.js, shadcn/ui         | Modernes React-Framework, UI-Komponenten      |
 | Deployment             | Vercel                     | Einfaches, schnelles Hosting                  |
 | Styling                | TailwindCSS (shadcn/ui)    | Utility-first, flexibel, modern               |
-| State Management       | Zustand/React Context      | Einfach, performant, für kleine Apps optimal  |
+| State Management       | React Hooks                | Einfach, performant, für kleine Apps optimal  |
 | QR-Code                | qrcode.react               | QR-Code für Ticket, einfach zu integrieren    |
-| Apple Wallet Pass      | passkit-generator (Node.js)| Erstellung von .pkpass-Dateien                |
+| Apple Wallet Pass      | Mock-Implementation        | Generierung von .pkpass-Dateien (Demo)        |
 | Backend (API)          | Next.js API Routes         | Für Ticket- und Pass-Generierung              |
-| Auth (optional)        | NextAuth.js                | Falls User-Login gewünscht                    |
-| Testing                | Jest, React Testing Library| Zuverlässige Tests                            |
-| Linting/Format         | ESLint, Prettier           | Codequalität                                  |
+
+## Projektstruktur
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── page.tsx           # Startseite mit Ticketformular
+│   ├── checkout/          # Zahlungsseite
+│   ├── success/           # Erfolgsseite mit Ticket
+│   └── api/               # API Routes
+├── components/            # React Komponenten
+│   ├── TicketForm.tsx     # Formular für Ticketkauf
+│   ├── LightningMock.tsx  # Simulierte Lightning-Zahlung
+│   ├── QRCodeDisplay.tsx  # QR-Code Anzeige
+│   └── WalletPassButton.tsx # Apple Wallet Integration
+└── lib/                   # Utilities & Services
+    └── services/          # Backend Services
+```
+
+## Entwicklungs-Workflow
+
+1. **Feature Branch erstellen**
+   ```bash
+   git checkout -b feature/neue-funktion
+   ```
+
+2. **Änderungen committen**
+   ```bash
+   git add .
+   git commit -m "Beschreibung der Änderungen"
+   ```
+
+3. **Push zu GitHub**
+   ```bash
+   git push origin feature/neue-funktion
+   ```
+
+4. **Pull Request erstellen**
+   - Auf GitHub Pull Request erstellen
+   - Review anfordern
+   - Nach Approval mergen
+
+## Lokales Testing
+
+Die App enthält verschiedene Mock-Implementierungen:
+- Lightning-Zahlung wird simuliert (5-Sekunden-Countdown)
+- Apple Wallet Pass wird als JSON generiert
+- Keine echte Datenbank-Anbindung
+
+## Deployment
+
+Die App ist für Vercel optimiert:
+1. Vercel-Projekt erstellen
+2. GitHub-Repository verbinden
+3. Automatisches Deployment bei Push auf Main
+
+## Lizenz
+
+MIT
+
+## Beitragen
+
+Beiträge sind willkommen! Bitte erst Issue erstellen und diskutieren.
 
 ---
 
