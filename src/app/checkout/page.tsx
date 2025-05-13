@@ -1,9 +1,10 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LightningMock } from "@/components/LightningMock";
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const amount = Number(searchParams.get("amount")) || 5.20; // Standardbetrag falls nicht angegeben
@@ -28,5 +29,21 @@ export default function CheckoutPage() {
         />
       </div>
     </main>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-8">
+            Laden...
+          </h1>
+        </div>
+      </main>
+    }>
+      <CheckoutContent />
+    </Suspense>
   );
 } 

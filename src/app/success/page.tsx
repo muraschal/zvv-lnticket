@@ -1,10 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { QRCodeDisplay } from "@/components/QRCodeDisplay";
 import { WalletPassButton } from "@/components/WalletPassButton";
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const ticketId = searchParams.get("ticketId") || "";
 
@@ -25,5 +26,21 @@ export default function SuccessPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen p-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-8">
+            Laden...
+          </h1>
+        </div>
+      </main>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 } 
